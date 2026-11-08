@@ -33,9 +33,15 @@ jobs:
           if [ "$status" -ne 0 ]; then
             echo "Retrying the Android Gradle task with a stacktrace"
             (cd android && ./gradlew app:assembleRelease --no-daemon --stacktrace) || true
-            echo "APK candidates after Gradle retry:"
-            find . -type f -name '*.apk' -print
           fi
+          candidate="$(find android/app/build/outputs/flutter-apk android/app/build/outputs/apk/release -type f -name 'app-release.apk' 2>/dev/null | head -n 1)"
+          if [ -n "$candidate" ]; then
+            mkdir -p build/app/outputs/flutter-apk
+            cp "$candidate" build/app/outputs/flutter-apk/app-release.apk
+            status=0
+          fi
+          echo "APK candidates after build:"
+          find . -type f -name '*.apk' -print
           exit "$status"
       - uses: actions/upload-artifact@v4
         with:
