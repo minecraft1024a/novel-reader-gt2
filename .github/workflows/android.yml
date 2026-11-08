@@ -23,7 +23,20 @@ jobs:
           channel: stable
           cache: true
       - run: flutter pub get
-      - run: flutter build apk --release
+      - name: Build release APK
+        run: |
+          set +e
+          flutter build apk --release
+          status=$?
+          echo "APK candidates after flutter build:"
+          find . -type f -name '*.apk' -print
+          if [ "$status" -ne 0 ]; then
+            echo "Retrying the Android Gradle task with a stacktrace"
+            (cd android && ./gradlew app:assembleRelease --no-daemon --stacktrace) || true
+            echo "APK candidates after Gradle retry:"
+            find . -type f -name '*.apk' -print
+          fi
+          exit "$status"
       - uses: actions/upload-artifact@v4
         with:
           name: android-apk
