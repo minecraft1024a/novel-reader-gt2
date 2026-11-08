@@ -1,0 +1,17 @@
+{
+  "app": {
+    "bundleName": "io.github.novelreader.gt2",
+    "vendor": "NovelReader",
+    "version": { "code": 1, "name": "0.1.0" }
+  },
+  "deviceConfig": {},
+  "module": {
+    "deviceType": ["liteWearable"],
+    "distro": { "deliveryWithInstall": true, "moduleName": "entry", "moduleType": "entry" },
+    "abilities": [{ "name": "default", "icon": "$media:icon", "label": "$string:appName", "type": "page" }],
+    "js": [{
+      "pages": ["pages/index/index", "pages/home/home", "pages/viewer_text/viewer_text", "pages/viewer_text_options/viewer_text_options", "pages/settings/settings", "pages/router/router"],
+      "name": "default"
+    }]
+  }
+}

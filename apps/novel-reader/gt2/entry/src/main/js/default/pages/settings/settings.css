@@ -1,0 +1,11 @@
+@import "../../common.css";
+.main-card-wrapper { flex-direction: column; align-items: center; }
+.main-card { padding-top: 24px; padding-bottom: 24px; background-color: #222; border-radius: 24px; flex-direction: column; }
+.main-card-title { height: 48px; margin-left: 24px; margin-bottom: 12px; font-size: 30px; text-align: left; }
+.option-list { padding-left: 24px; padding-right: 24px; flex-direction: row; align-items: center; justify-content: flex-end; background-color: transparent; }
+.option-card-wrapper { width: 84px; height: 84px; align-items: center; justify-content: center; border-radius: 18px; border-width: 3px; background-color: transparent; }
+.option-card { width: 72px; height: 72px; align-items: center; justify-content: center; border-radius: 12px; }
+.option-round-btn { width: 72px; height: 72px; margin-left: 12px; border-radius: 72px; align-items: center; justify-content: center; background-color: #333; }
+.button-row { height: 46px; padding-left: 18px; padding-right: 18px; border-radius: 12px; background-color: #303030; flex-direction: row; justify-content: space-between; align-items: center; }
+.button-row text { font-size: 24px; color: #fff; }
+.button-row text:last-child { color: #99ccff; }

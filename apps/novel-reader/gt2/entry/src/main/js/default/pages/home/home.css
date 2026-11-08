@@ -1,0 +1,5 @@
+@import "../../common.css";
+
+.title-card { background-color: #202020; border-radius: 18px; justify-content: center; align-items: center; }
+.status-card { background-color: #181818; border-radius: 14px; justify-content: center; align-items: center; }
+.hint-card { background-color: #202020; border-radius: 14px; justify-content: center; align-items: center; }

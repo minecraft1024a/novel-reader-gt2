@@ -1,0 +1,19 @@
+# Local and generated outputs
+apps/novel-reader/android/.dart_tool/
+apps/novel-reader/android/build/
+apps/novel-reader/android/.flutter-plugins
+apps/novel-reader/android/.flutter-plugins-dependencies
+apps/novel-reader/android/android/.gradle/
+apps/novel-reader/gt2/.gradle/
+apps/novel-reader/gt2/build/
+apps/novel-reader/gt2/entry/build/
+apps/novel-reader/gt2/*.app
+*.log
+
+# Large reverse-engineering binaries are local inputs, not source artifacts.
+docs/apks/*.apk
+docs/HAP/*.hap
+
+# Independent local tool checkout; it is not part of the upload repository.
+compiler/
+bluetooth-computer/

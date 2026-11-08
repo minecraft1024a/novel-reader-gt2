@@ -1,0 +1,32 @@
+<stack style="width: {{uiSizes.screenWidth}}px; height: {{uiSizes.screenHeight}}px; background-color: #000;">
+  <list ref="bookList" on:swipe="swipeBack" style="width: {{uiSizes.screenWidth}}px; height: {{uiSizes.screenHeight}}px;">
+    <list-item class="timeBatteryWrapper" style="width: {{uiSizes.screenWidth}}px; height: {{uiSizes.topMargin + 24}}px; justify-content: center;">
+      <text style="font-size: 24px; color: #999;">{{timeBatteryStr}}</text>
+    </list-item>
+    <list-item style="width: {{uiSizes.screenWidth}}px; height: 88px; justify-content: center;">
+      <div class="title-card" style="width: {{uiSizes.uiWidth}}px; height: 68px;">
+        <text class="title">腕上小说</text>
+      </div>
+    </list-item>
+    <list-item style="width: {{uiSizes.screenWidth}}px; height: 68px; justify-content: center;">
+      <div class="status-card" style="width: {{uiSizes.uiWidth}}px; height: 48px;">
+        <text class="muted">{{status}}</text>
+      </div>
+    </list-item>
+    <list-item for="{{books}}" style="width: {{uiSizes.screenWidth}}px; height: 72px; justify-content: center;">
+      <div on:click="openBook($item)" class="button" style="width: {{uiSizes.uiWidth}}px; height: 60px;">
+        <text style="width: {{uiSizes.uiWidth - 30}}px; font-size: 30px; color: #fff; text-overflow: ellipsis;">{{$item.name}}</text>
+      </div>
+    </list-item>
+    <list-item if="{{empty}}" style="width: {{uiSizes.screenWidth}}px; height: 86px; justify-content: center;">
+      <div class="hint-card" style="width: {{uiSizes.uiWidth}}px; height: 62px;">
+        <text class="muted">支持 .txt / .md</text>
+      </div>
+    </list-item>
+    <list-item style="width: {{uiSizes.screenWidth}}px; height: 82px; justify-content: center;">
+      <div on:click="openSettings" class="button" style="width: {{uiSizes.uiWidth}}px; height: 60px;">
+        <text style="font-size: 28px; color: #fff;">阅读设置</text>
+      </div>
+    </list-item>
+  </list>
+</stack>
