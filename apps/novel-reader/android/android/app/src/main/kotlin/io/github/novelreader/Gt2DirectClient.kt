@@ -148,7 +148,7 @@ class Gt2DirectClient(
         val digest = if (authVersion == 0x02) digestV2(authKey, MESSAGE_CHALLENGE, doubleNonce)
         else digestV1(authKey, MESSAGE_CHALLENGE, doubleNonce, authAlgo)
         val expected = if (authVersion == 0x02) digestV2(authKey, MESSAGE_RESPONSE, doubleNonce).copyOfRange(0, 32)
-        else digestV1(authKey, MESSAGE_RESPONSE, doubleNonce).copyOfRange(0, 32)
+        else digestV1(authKey, MESSAGE_RESPONSE, doubleNonce, authAlgo).copyOfRange(0, 32)
         val nonce18 = byteArrayOf((authVersion shr 8).toByte(), authVersion.toByte()) + clientNonce
         val authTlv = Tlv().put(1, digest.copyOfRange(0, 32)).put(2, nonce18).put(3, byteArrayOf(authAlgo.toByte()))
         val authResp = request(0x01, 0x13, authTlv).tlv.getBytes(1)
@@ -185,9 +185,9 @@ class Gt2DirectClient(
         send(SERVICE_FILE, CMD_HASH, Tlv().put(1, byteArrayOf(fileId.toByte())).put(3, digest.digest()))
         val consultMsg = await(SERVICE_FILE, CMD_CONSULT).tlv
         val unit = consultMsg.getShort(5, 0x1000).coerceAtLeast(256)
-        send(SERVICE_FILE, CMD_CONSULT, Tlv().putInt(0x7F, OK).put(1, byteArrayOf(fileId.toByte())).put(9, byteArrayOf(0x01)))
+        send(SERVICE_FILE, CMD_CONSULT, Tlv().putInt(0x7F, OK.toLong()).put(1, byteArrayOf(fileId.toByte())).put(9, byteArrayOf(0x01)))
         var sent = 0L
-        RandomAccessFile(file).use { raf ->
+        RandomAccessFile(file, "r").use { raf ->
             while (sent < file.length()) {
                 val params = awaitAny(SERVICE_FILE, CMD_CHUNK_PARAMS, CMD_DEVICE_RESULT).tlv
                 if (lastMessageCommand == CMD_DEVICE_RESULT) {
@@ -215,7 +215,7 @@ class Gt2DirectClient(
             }
         }
         await(SERVICE_FILE, CMD_RESULT)
-        send(SERVICE_FILE, CMD_RESULT, Tlv().putInt(0x7F, OK).put(1, byteArrayOf(fileId.toByte())))
+        send(SERVICE_FILE, CMD_RESULT, Tlv().putInt(0x7F, OK.toLong()).put(1, byteArrayOf(fileId.toByte())))
         progress(100)
     }
 
@@ -392,7 +392,7 @@ class Gt2DirectClient(
         val secret = ByteArray(16) { (DIGEST_SECRET_V1[it].toInt() xor hashKey[it].toInt()).toByte() }
         val material = secret + message
         val step = if (algo == 1) {
-            val spec = PBEKeySpec(material.toHex().uppercase().toCharArray(), nonce.toHex().uppercase().toCharArray(), 1000, 256)
+            val spec = PBEKeySpec(material.toHex().uppercase().toCharArray(), nonce, 1000, 256)
             SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256").generateSecret(spec).encoded
         } else hmac(material, nonce)
         return hmac(step, nonce) + step
